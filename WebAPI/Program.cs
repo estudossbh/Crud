@@ -1,4 +1,5 @@
 using WebAPI.Configurations;
+using WebAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services
     .AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<TodoRepository>();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@
     {
         public static IServiceCollection RegisterDataBase(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            return services.Configure<DbSettings>(builder.Configuration.GetSection("DataBase"));
+            return services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
         }
     }
 }

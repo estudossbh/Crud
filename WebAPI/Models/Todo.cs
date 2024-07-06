@@ -3,30 +3,28 @@ using MongoDB.Bson;
 
 namespace WebAPI.Models
 {
-    public class Todo
+    public class Todo(string descricao)
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; private set; }
         public DateTime DataConclusao { get; private set; }
-        public string Descricao { get; private set; }
+        public string Descricao { get; private set; } = descricao;
         public bool IsConcluido { get; private set; }
 
-        public Todo(string descricao)
+        public Todo Update(string descricao)
         {
             Descricao = descricao;
+
+            return this;
         }
 
-        public void Update(string descricao, bool isConcluido)
+        public Todo SetIsConcluido(bool isConcluido)
         {
-            Descricao = descricao;
             IsConcluido = isConcluido;
-        }
-
-        public void SetIsConcluido()
-        {
-            IsConcluido = true;
             DataConclusao = DateTime.Now;
+
+            return this;
         }
     }
 }
