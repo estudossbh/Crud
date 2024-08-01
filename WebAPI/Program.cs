@@ -8,9 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .RegisterDataBase(builder)
     .AddSwaggerGen()
+    .AddCors()
     .AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services
+    .AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<TodoRepository>();
 
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseCors(c =>
 {
