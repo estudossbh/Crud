@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 using WebAPI.Repositories;
@@ -30,9 +31,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        public async Task<ActionResult> GetAsync(string id, CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAsync(int id, CancellationToken cancellationToken)
         {
-            var model = await _repository.GetAsync(id, cancellationToken);
+            var model = await _repository.GetAsync(id.ToString(), cancellationToken);
             return Ok(new
             {
                 model.Id,
@@ -40,6 +41,19 @@ namespace WebAPI.Controllers
                 model.DataConclusao,
                 model.IsConcluido
             });
+        }
+
+        [HttpGet, Route("search/{search?}")]
+        public async Task<ActionResult> SearchAsync(string search, CancellationToken cancellationToken)
+        {
+            var models = await _repository.SearchAsync(search, cancellationToken);
+            return Ok(models.Select(s => new
+            {
+                s.Id,
+                s.Descricao,
+                s.DataConclusao,
+                s.IsConcluido
+            }).ToList());
         }
 
         [HttpPost]
@@ -77,7 +91,7 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete, Route("{id}")]
+        [HttpDelete, Route("delete/{id}")]
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             await _repository.DeleteAsync(id, cancellationToken);

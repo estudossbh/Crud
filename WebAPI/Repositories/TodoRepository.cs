@@ -25,6 +25,11 @@ namespace WebAPI.Repositories
             return await _collection.Find(w => w.Id == id).SingleAsync(cancellationToken);
         }
 
+        public async Task<List<Todo>> SearchAsync(string search, CancellationToken cancellationToken)
+        {
+            return await _collection.Find(w => string.IsNullOrWhiteSpace(search) || w.Descricao.Contains(search)).ToListAsync(cancellationToken);
+        }
+
         public async Task<List<Todo>> GetAsync(List<string> ids, CancellationToken cancellationToken)
         {
             return await _collection.Find(w => ids.Contains(w.Id)).ToListAsync(cancellationToken);
